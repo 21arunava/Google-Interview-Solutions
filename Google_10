@@ -1,0 +1,68 @@
+Merge k sorted linked lists and return it as one sorted list.
+
+Example :
+
+1 -> 10 -> 20
+4 -> 11 -> 13
+3 -> 8 -> 9
+will result in
+
+1 -> 3 -> 4 -> 8 -> 9 -> 10 -> 11 -> 13 -> 20
+
+Solution:
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ * 
+ * typedef struct ListNode listnode;
+ * 
+ * listnode* listnode_new(int val) {
+ *     listnode* node = (listnode *) malloc(sizeof(listnode));
+ *     node->val = val;
+ *     node->next = NULL;
+ *     return node;
+ * }
+ */
+/**
+ * @input A : Array of Linked list node head
+ * @input n1 : Array's ( A ) length = number of linked list heads
+ * 
+ * @Output head pointer of list.
+ */
+     //listnode* result=NULL;
+listnode* merge(listnode* A,listnode* B)
+{
+    if(A==NULL)
+        return B;
+    else if(B==NULL)
+        return A;
+        
+   listnode*  result=NULL;    
+    if(A->val<B->val)
+    {
+        result=A;
+        result->next=merge(A->next,B);
+    }
+    else
+    {
+        result=B;
+        result->next=merge(A,B->next);
+    }
+    return result;
+}
+ 
+ 
+ 
+listnode* mergeKLists(listnode** A, int n1) 
+{
+    listnode *ans=A[0];
+    int i=0;
+    for(i=1;i<n1;i++)
+    {
+        ans=merge(ans,A[i]);
+    }
+    return ans;
+}
