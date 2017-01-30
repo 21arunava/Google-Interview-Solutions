@@ -49,22 +49,22 @@ Solution:
 bool isPossible(vector<int> &arr, int n, int m, int curMin) 
 {
     int studentsRequired = 1;// set as number 1
-    int curSum = 0;// cursum=0
+    int curSum = 0;// cursum is initialized to zero
     for (int i = 0; i < n; i++) 
     {
-        if (arr[i] > curMin) // arr[i] >curmin
+        if (arr[i] > curMin) // arr[i] >curmin return false
         return false;
         
         if (curSum + arr[i] > curMin) // arr[i]+cursum>curmin
         {
-            studentsRequired++;//inctrement students
-            curSum = arr[i]; //cursum=arr[i]
-            if (studentsRequired > m) 
+            studentsRequired++;//increment students
+            curSum = arr[i];// set cursum to arr[i]
+            if (studentsRequired > m) // if students required> students available
             return false;
         } 
         else 
         {
-            curSum += arr[i];// cursum+=arr[i]
+            curSum += arr[i]; //increment cursum
         }
     }
     return true;
@@ -79,22 +79,22 @@ int books(vector<int> &arr, int m)
     return -1;
     for(int i = 0; i < n; ++i) 
     sum += arr[i];
-    long long start = 0;// start=0
-    long long end = sum;// end=sum
-    int mid=0;
-    int ans = INT_MAX; 
-    while(start <= end) // start<=end
+    long long start = 0;// initialize start=0
+    long long end = sum;// initialize end=sum
+    long long mid=0;
+    long long ans = INT_MAX; 
+    while(start <= end) // start<=end less than equal to
     {
-         mid = (start + end) / 2;// mid=(start+end)/2
+         mid = (start + (end-start))/2;
         if (isPossible(arr, n, m, mid)) 
         {
-            ans = min(ans, (int)mid);// ans=min(ans,(int)mid) min of ans and (int) of mid
-            end = mid - 1;// end=mid-1 end=mid-1
+            ans = min(ans,(int)mid);// if it is possible to allocate books
+            end = mid - 1;//search in the first part of the array
         } 
         else 
         {
-            start = mid + 1;// start=mid+1 start=mid+1
+            start = mid + 1;// serach in the second part of the array
         }
     }
-    return ans; //return ans return ans
+    return ans;
 }
