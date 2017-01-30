@@ -41,7 +41,7 @@ using namespace std;
 
 void TestCase()
 {
-    int n, s;
+    int n, target;
     cin >> n;
     cin >> target;
     int first = 0;
