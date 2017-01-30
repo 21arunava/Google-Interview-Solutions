@@ -1,0 +1,115 @@
+Given N * M string array of O's and X's
+Return the number of 'X' total shapes. 'X' shape consists of one or more adjacent X's (diagonals not included).
+
+Example (1):
+
+OOOXOOO
+OXXXXXO
+OXOOOXO
+
+answer is 1 , shapes are  :
+(i)     X
+    X X X X
+    X     X
+ 
+
+Example (2):
+
+XXX
+OOO
+XXX
+
+answer is 2, shapes are
+(i)  XXX
+
+(ii) XXX
+
+Input:
+The first line of input takes the number of test cases, T.
+Then T test cases follow. Each of the T test cases takes 2 input lines.
+The first line of each test case have two integers N and M.The second line of N space separated strings follow which indicate the elements in the array.
+
+Output:
+
+Print number of shapes.
+
+Constraints:
+
+1<=T<=100
+
+1<=N,M<=50
+
+Example:
+
+Input:
+2
+4 7
+OOOOXXO OXOXOOX XXXXOXO OXXXOOO
+10 3
+XXO OOX OXO OOO XOX XOX OXO XXO XXX OOO
+
+Output:
+4
+6
+SOLUTION:
+
+#include <iostream>
+using namespace std;
+
+string s[50];
+bool v[50][50];
+
+void markAdjacentNodesAsVisited(int ri, int cj, int n, int m){
+    
+    if(ri >= 0 && cj >= 0 && ri < n && cj < m){
+        
+        if(!v[ri][cj] && s[ri][cj] == 'X'){
+            
+            v[ri][cj] = true;
+            
+            markAdjacentNodesAsVisited(ri-1, cj, n, m);
+            markAdjacentNodesAsVisited(ri, cj+1, n, m); 
+            markAdjacentNodesAsVisited(ri+1, cj, n, m); 
+            markAdjacentNodesAsVisited(ri, cj-1, n, m);
+        }
+    }
+    
+}
+
+int noOfPartsOfGraph(int n, int m){
+    
+    int count = 0;
+    
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            
+            if(!v[i][j] && s[i][j] == 'X'){
+                markAdjacentNodesAsVisited(i,j,n,m);
+                count++;
+            }
+            
+        }    
+    }
+    
+    return count;
+}
+
+
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n,m;
+	    cin>>n>>m;
+	    for(int i=0;i<n;i++){
+	        cin>>s[i];
+	        for(int j=0;j<m;j++){
+	            v[i][j] = false;    
+	        }    
+	    }
+	    
+	    cout<<noOfPartsOfGraph(n,m)<<endl;
+	}
+	return 0;
+}
