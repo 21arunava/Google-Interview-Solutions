@@ -25,22 +25,45 @@ Output:
 8 8 8 8
 
 SOLUTION::
-// A recursive function to replace previous color 'prevC' at  '(x, y)' 
-// and all surrounding pixels of (x, y) with new color 'newC' and
-void floodFillUtil(int screen[][N], int x, int y, int prevC, int newC)
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void flood_fill(vector<vector<int>>& pixels,int n, int m, int x, int y, int k, int prevK)
 {
-    // Base cases
-    if (x < 0 || x >= M || y < 0 || y >= N)
-        return;
-    if (screen[x][y] != prevC)
-        return;
- 
-    // Replace the color at (x, y)
-    screen[x][y] = newC;
- 
-    // Recur for north, east, south and west
-    floodFillUtil(screen, x+1, y, prevC, newC);
-    floodFillUtil(screen, x-1, y, prevC, newC);
-    floodFillUtil(screen, x, y+1, prevC, newC);
-    floodFillUtil(screen, x, y-1, prevC, newC);
+    if(pixels[x][y] == prevK)
+    {
+        pixels[x][y] = k;
+        if(x+1 < n) 
+        flood_fill(pixels, n, m, x+1, y, k, prevK);   
+        if(y+1 < m) 
+        flood_fill(pixels, n, m, x, y+1, k, prevK);   
+        if(y-1 >= 0) 
+        flood_fill(pixels, n, m, x, y-1, k, prevK);   
+        if(x-1 >= 0) 
+        flood_fill(pixels, n, m, x-1, y, k, prevK);   
+    }
+}
+
+int main()
+{
+	int t;
+	cin >> t;
+	while(t--)
+    {
+	    int m,n,x,y,k;
+	    cin >> n>> m;
+	    vector<vector<int>> pixels(n, vector<int>(m));
+	    for(int i = 0; i < n; i++)
+	        for(int j = 0; j < m; j++)
+	            cin >> pixels[i][j];
+	    cin >> x >> y >> k;
+	    
+	    flood_fill(pixels, n, m, x, y, k, pixels[x][y]);
+	    for(int i = 0; i < n; i++)
+	        for(int j = 0; j < m; j++)
+	            cout << pixels[i][j] << " ";
+	         cout << endl;
+	 }
+	return 0;
 }
