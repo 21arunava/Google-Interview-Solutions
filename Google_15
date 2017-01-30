@@ -1,0 +1,48 @@
+Given three strings A, B and C your task is to complete the function isInterleave which returns true if C is an interleaving of A and B else returns false. C is said to be interleaving A and B, if it contains all characters of A and B and order of all characters in individual strings is preserved.
+
+Input:
+The first line of input contains an input T denoting the no of test cases. Then T test cases follow. Each test case contains three space separated strings A, B, C.
+
+Output:
+For each test case output will be 1 if C is interleaving of string A and B else 0.
+
+Constraints:
+1<=T<=100
+1<=length of A, B, C <=100
+
+Example(To be used only for expected output):
+Input:
+2
+YX  X  XXY
+XY X XXY
+
+Output
+0
+1
+
+Explanation:
+1. For first test case XXY is not interleaving of YX and X
+2. For the sec test case XXY is interleaving of XY and X.
+
+Note:The Input/Ouput format and Example given are used for system's internal purpose, and should be used by a user for Expected Output only. As it is a function problem, hence a user should not read any input from stdin/console. The task is to complete the function specified, and not to write the full code.
+
+**For More Examples Use Expected Output**
+
+Solution::
+
+// A simple recursive function to check whether C is an interleaving of A and B
+bool isInterleaved(char *A, char *B, char *C)
+{
+    // Base Case: If all strings are empty
+    if (*A==NULL && *B==NULL && *C==NULL)
+        return true;
+ 
+    // If C is empty and any of the two strings is not empty
+    if (*C ==NULL)
+        return false;
+ 
+    // If any of the above mentioned two possibilities is true,
+    // then return true, otherwise false
+    return ( (*C == *A) && isInterleaved(A+1, B, C+1))
+           || ((*C == *B) && isInterleaved(A, B+1, C+1));
+}
