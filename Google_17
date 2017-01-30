@@ -1,0 +1,46 @@
+Given a 2D screen, location of a pixel in the screen ie(x,y) and a color(K), your task is to replace color of the given pixel and all adjacent same colored pixels with the given color K.
+
+Input:
+The first line of input contains an integer T denoting the no of test cases. Then T test cases follow. The first line of each test case contains Two integers N and M denoting the size of the matrix. Then in the next line are N*M space separated values of the matrix. Then in the next line are three values x, y and K.
+
+Output:
+For each test case print the space separated values of the new matrix.
+
+Constraints:
+1<=T<=10
+1<=M[][]<=100
+
+Example:
+Input:
+2
+3 4
+0 1 1 0 1 1 1 1 0 1 2 3
+0 1 5
+2 2
+1 1 1 1
+0 1 8
+
+Output:
+0 5 5 0 5 5 5 5 0 5 2 3
+8 8 8 8
+
+SOLUTION::
+// A recursive function to replace previous color 'prevC' at  '(x, y)' 
+// and all surrounding pixels of (x, y) with new color 'newC' and
+void floodFillUtil(int screen[][N], int x, int y, int prevC, int newC)
+{
+    // Base cases
+    if (x < 0 || x >= M || y < 0 || y >= N)
+        return;
+    if (screen[x][y] != prevC)
+        return;
+ 
+    // Replace the color at (x, y)
+    screen[x][y] = newC;
+ 
+    // Recur for north, east, south and west
+    floodFillUtil(screen, x+1, y, prevC, newC);
+    floodFillUtil(screen, x-1, y, prevC, newC);
+    floodFillUtil(screen, x, y+1, prevC, newC);
+    floodFillUtil(screen, x, y-1, prevC, newC);
+}
