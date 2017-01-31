@@ -1,0 +1,117 @@
+Given two BST, Your task is to complete the function merge which  prints the elements of both BSTs in sorted form.
+
+Input:
+The first line of input contains an integer T denoting the no of test cases. Then T test cases follow. Each test case contains three lines. The first line of each test case contain's an integer N and M denoting the size of the two BST's. Then In the next two line are space separated values of the two BST's.
+
+Output:
+The function should print the elements of both BST's in sorted form.
+
+Constraints:
+1<=T<=100
+1<=N,M<=100
+
+Example(To be used only for expected output):
+Input:
+2
+3 3
+1 33 4 
+6 7 1
+2 2
+1 6
+9 2
+Output:
+1 1 4 6 7 33
+1 2 6 9
+
+SOLUTION::
+
+/* The structure of Node is
+struct Node {
+int data;
+Node * right, * left;
+};*/
+
+void InOrderHelper(Node * node,vector<int> &list) {
+    if(!node) 
+    {
+    return;
+    }
+    InOrderHelper(node->left,list);
+    list.push_back(node->data);
+    InOrderHelper(node->right,list);
+}
+
+vector<int> InOrder(Node *root) 
+{
+    vector<int> retval;
+    InOrderHelper(root,retval);
+    return retval;
+}
+
+vector<int> mergeLists(vector<int> &list1,vector<int> &list2) 
+{
+    vector<int> retval;
+    auto it1 = list1.begin();
+    auto it2 = list2.begin();
+    
+    while((it1!=list1.end()) && (it2!=list2.end())) 
+    {
+        if(*it1 <= *it2) {
+            retval.push_back(*it1);
+            it1++;
+        }
+        else
+        {
+            retval.push_back(*it2);
+            it2++;
+        }
+    }
+    
+    while(it1!=list1.end()) 
+    {
+        retval.push_back(*it1);
+        it1++;   
+    }
+    
+    while(it2!=list2.end()) 
+    {
+        retval.push_back(*it2);
+        it2++;   
+    }
+    
+    return retval;
+}
+
+Node * BSTHelper(vector<int>& list,int start, int end) 
+{
+    if (start>end) 
+    {
+        return NULL;
+    }
+    int middle = start + (end-start)/2 ;
+    Node *retval = new Node();
+    retval->data = list[middle];
+    retval->left = BSTHelper(list,start,middle-1);
+    retval->right = BSTHelper(list,middle+1,end);
+    return retval;
+}
+
+Node * BST(vector<int> &list) 
+{
+    return BSTHelper(list,0,list.size()-1);
+}
+
+/*You are required to complete below method */
+void merge(Node *root1, Node *root2)
+{
+   vector<int> list1 = InOrder(root1);
+   vector<int> list2 = InOrder(root2);
+   vector<int> list3 = mergeLists(list1,list2); 
+   Node * root3 = BST(list3);
+   vector<int> list4 = InOrder(root3);
+   for(auto a : list4) 
+   {
+       cout << a << " ";
+   }
+   
+}
