@@ -1,0 +1,51 @@
+Two player X and Y are playing a game in which there are pots of gold arranged in a  line, each containing some gold coins. They get alternating turns in which the player can pick a pot from one of the ends of the line. The winner is the player who has a higher number of coins at the end. The objective is to maximize the number of coins collected by X, assuming Y also plays optimally. You are required to complete the method maxCoins which returns an integer denoting the max coins X could get while playing the game. You may assume that X starts the game. 
+
+Input:
+The first line of input contains an integer T denoting the no of test cases. Then T test cases follow. Each test case contains an integer denoting the no of gold pots. Then in the next line are N space separated values denoting the values (A[]) of gold coins in each pot.
+
+Output:
+For each test case in a new line print the maximum amount of money X can collect.
+
+Constraints:
+1<=T<=100
+1<=N<=100
+1<=A[]<=1000
+
+Example(To be used only for expected output):
+Input:
+2
+4
+8 15 3 7
+4
+2 2 2 2
+
+Output:
+22
+4
+
+SOLUTION::
+
+int maxCoins(int arr[],int n)
+{
+    // Create a table to store solutions of subproblems
+    int table[n][n], gap, i, j, x, y, z;
+ 
+    // Fill table using above recursive formula. Note that the table
+    // is filled in diagonal fashion (similar to http://goo.gl/PQqoS),
+    // from diagonal elements to table[0][n-1] which is the result.
+    for (gap = 0; gap < n; ++gap)
+    {
+        for (i = 0, j = gap; j < n; ++i, ++j)
+        {
+            // Here x is value of F(i+2, j), y is F(i+1, j-1) and
+            // z is F(i, j-2) in above recursive formula
+            x = ((i+2) <= j) ? table[i+2][j] : 0;
+            y = ((i+1) <= (j-1)) ? table[i+1][j-1] : 0;
+            z = (i <= (j-2))? table[i][j-2]: 0;
+ 
+            table[i][j] = max(arr[i] + min(x, y), arr[j] + min(y, z));
+        }
+    }
+ 
+    return table[0][n-1];
+}
