@@ -1,0 +1,77 @@
+Given N and M find all stepping numbers in range N to M
+
+The stepping number:
+
+A number is called as a stepping number if the adjacent digits have a difference of 1.
+e.g 123 is stepping number, but 358 is not a stepping number
+
+Example:
+
+N = 10, M = 20
+all stepping numbers are 10 , 12 
+Return the numbers in sorted order
+
+SOLUTION::
+
+vector<int>result;
+
+void bfs(int n, int m, int num)
+{
+    queue<int> q;
+    
+    q.push(num);
+    
+    while (!q.empty())
+    {
+        
+        int stepNum = q.front();
+        
+        q.pop();
+ 
+        if (stepNum <= m && stepNum >= n)
+            result.push_back(stepNum);
+            
+        
+        if ( stepNum > m)
+            continue;
+            
+        if(num==0)
+            continue;
+     
+ 
+        int lastDigit = stepNum % 10;
+ 
+        int stepNumA = stepNum * 10 + (lastDigit- 1);
+        int stepNumB = stepNum * 10 + (lastDigit + 1);
+ 
+  
+        if (lastDigit == 0)
+            q.push(stepNumB);
+ 
+  
+        else if (lastDigit == 9)
+            q.push(stepNumA);
+ 
+        else
+        {
+            q.push(stepNumA);
+            q.push(stepNumB);
+        }
+    }
+}
+
+
+
+vector<int> stepnum(int n, int m) 
+{
+     result.clear();
+     
+     for (int i = 0 ; i <= 9 ; i++)
+            bfs(n, m, i);
+            
+     result.erase(unique(result.begin(), result.end() ),result.end());
+     
+     sort(result.begin(),result.end());
+     
+     return result;   
+}
